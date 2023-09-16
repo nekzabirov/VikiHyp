@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- BASE -->
+    <string name="sec">sec</string>
+    <!-- BASE -->
+
+    <!-- AUTH -->
+    <string name="auth_screen_title">VikiHyp</string>
+    <string name="auth_screen_label">Fill free, enjoy\nfreedom</string>
+    <string name="auth_screen_join_label">Join with</string>
+    <string name="auth_screen_join_label_or_method_label">Or join with</string>
+
+    <string name="auth_screen_join_with_phone_phonenumber_field_label">Phone number</string>
+    <string name="auth_screen_join_with_phone_phonenumber_field_placeholder">Enter your phone number</string>
+    <string name="auth_screen_join_with_phone_phonenumber_button_next_resend_label">Next (%d) sec</string>
+    <string name="auth_screen_join_with_phone_phonenumber_button_next_label">Next</string>
+    <string name="auth_screen_join_with_phone_phonenumber_verify_button_next_label">Next</string>
+    <string name="auth_screen_join_with_phone_smscode_field_label">Sms code</string>
+    <string name="auth_screen_join_with_phone_smscode_field_placeholder">Enter received sms code</string>
+    <string name="auth_screen_join_with_phone_smscode_verify_fail_error">Wrong sms code</string>
+
+    <string name="auth_screen_private_policy_label">Private policy</string>
+    <!-- AUTH -->
+</resources>

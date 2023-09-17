@@ -23,19 +23,23 @@ kotlin {
         homepage = "Link to the Shared Module homepage"
         version = "1.0"
         ios.deploymentTarget = "14.1"
+        podfile = project.file("../iosApp/Podfile")
 
-        pod("FirebaseCore")
-        pod("FirebaseAuth")
-        pod("GoogleSignIn")
-        pod("FBSDKLoginKit")
+        //pod("FirebaseCore") { version = "10.15.0" }
+        pod("FirebaseAuth") { version = "10.15.0" }
+        pod("GoogleSignIn") { version = "7.0.0" }
+        pod("FBSDKLoginKit") { version = "16.1.3" }
 
         framework {
             baseName = "shared"
+            isStatic = true
         }
+
+        //noPodspec()
     }
 
     sourceSets {
-        val firebaseVersion = "1.0.4"
+        val firebaseVersion = "1.0.0"
 
         val commonMain by getting {
             dependencies {
@@ -45,10 +49,6 @@ kotlin {
                 api(compose.material3)
                 api(compose.components.resources)
 
-                implementation("com.chrynan.navigation:navigation-core:0.10.0")
-                implementation("com.chrynan.navigation:navigation-compose:0.10.0")
-
-                api("com.nekzabirov.firebase:firebase_app:$firebaseVersion")
                 api("com.nekzabirov.firebase:firebase_auth:$firebaseVersion")
 
                 api("io.insert-koin:koin-core:3.4.3")

@@ -21,13 +21,15 @@ val appModule = module {
     singleOf<AuthRepository>(::AuthRepositoryImp)
 }
 
-@Composable
-fun VikiApp() {
-    initializeFirebase(getKContext())
-
+internal fun initApp() {
     startKoin {
         modules(appModule)
     }
+}
+
+@Composable
+fun VikiApp() {
+    initializeFirebase(getKContext())
 
     val focusManager = LocalFocusManager.current
 

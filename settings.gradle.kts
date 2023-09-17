@@ -2,17 +2,13 @@ pluginManagement {
     repositories {
         google()
         mavenCentral()
-        mavenLocal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven {
-            url = uri("https://maven.pkg.github.com/nekzabirov/KMM-Compose-Navigation")
+            url = uri("https://maven.pkg.github.com/nekzabirov/Firebase_KMM")
             credentials {
                 username = "nekzabirov"
-                password = "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"
+                password = "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"
             }
-        }
-        maven {
-            url = uri("https://repo.repsy.io/mvn/chrynan/public")
         }
     }
 }
@@ -23,14 +19,11 @@ dependencyResolutionManagement {
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven {
-            url = uri("https://maven.pkg.github.com/nekzabirov/KMM-Compose-Navigation")
+            url = uri("https://maven.pkg.github.com/nekzabirov/Firebase_KMM")
             credentials {
                 username = "nekzabirov"
-                password = "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"
+                password = "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"
             }
-        }
-        maven {
-            url = uri("https://repo.repsy.io/mvn/chrynan/public")
         }
     }
 }

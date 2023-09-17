@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.nekzabirov.firebaseapp.KActivity
 import com.nekzabirov.firebaseapp.KContext
+import com.vikihyp.shared.initApp
 
 @Composable
 actual fun getActivity(): KActivity {
@@ -24,6 +25,7 @@ private fun Context.getActivity(): AppCompatActivity = when (this) {
 private lateinit var vikiApplication: Application
 
 fun setApplication(application: Application) {
+    initApp()
     vikiApplication = application
 }
 

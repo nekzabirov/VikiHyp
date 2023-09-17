@@ -3,12 +3,10 @@ package com.vikihyp.shared.tool
 import androidx.compose.runtime.Composable
 import com.nekzabirov.firebaseapp.KActivity
 import com.nekzabirov.firebaseapp.KContext
+import com.vikihyp.shared.currentRootViewController
+import platform.Foundation.NSUserDefaults
 
 @Composable
-actual fun getActivity(): KActivity {
-    TODO("Not yet implemented")
-}
+actual fun getActivity(): KActivity = currentRootViewController
 
-actual fun getKContext(): KContext {
-    TODO("Not yet implemented")
-}
+actual fun getKContext(): KContext = KContext()

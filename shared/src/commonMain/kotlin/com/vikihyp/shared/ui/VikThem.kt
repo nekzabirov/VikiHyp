@@ -29,11 +29,9 @@ internal fun VikThem(content: @Composable () -> Unit) = MaterialTheme(
 
 internal fun String.hexToColor() = Color(this.removePrefix("#").toLong(16) or 0x00000000FF000000)
 
-private val vikiPrimaryColor = "#FFD700".hexToColor()
-//private val vikiPrimaryColor = Color(0, 35, 99)
-private val vikiSecondColor = "#212121".hexToColor()
+private val vikiPrimaryColor = "#8B008B".hexToColor()
+private val vikiSecondColor = Color.White
 private val exColor = Color(red = 28, green = 27, blue = 31)
-
 
 private fun colorScheme() = lightColorScheme(
     primary = vikiPrimaryColor,
@@ -57,8 +55,8 @@ private fun typography() = Typography(
     displayMedium = VikiTextStyle(14),
     displaySmall = VikiTextStyle(12),
 
-    titleLarge = VikiTextStyle(32),
-    titleMedium = VikiTextStyle(24),
+    titleLarge = VikiTextStyle(56),
+    titleMedium = VikiTextStyle(32),
     titleSmall = VikiTextStyle(16),
 
     bodyLarge = VikiTextStyle(14),

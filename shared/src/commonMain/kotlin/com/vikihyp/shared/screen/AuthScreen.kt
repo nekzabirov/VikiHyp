@@ -29,7 +29,9 @@ import com.vikihyp.shared.ui.VikiButtonSecondary
 import com.vikihyp.shared.ui.viewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -191,30 +193,13 @@ private fun JoinPhone(mViewModel: AuthViewModel) = Column(
     modifier = Modifier.animateContentSize(animationSpec = tween(easing = LinearOutSlowInEasing)),
     verticalArrangement = Arrangement.spacedBy(16.dp)
 ) {
-    val state by remember { mViewModel.state }.collectAsState()
-
     var phoneNumber by remember { mutableStateOf("") }
     var smsCode by remember { mutableStateOf("") }
 
-    val verificationID = remember(state) {
-        (state as? AuthState.PhoneVerification)?.verificationID ?: ""
-    }
+    var verificationID by remember { mutableStateOf("") }
     var isVerificationMode by remember { mutableStateOf(false) }
-
-    val isPhoneFail = remember(state) {
-        state is AuthState.PhoneVerification
-                && (state as AuthState.PhoneVerification).isFail
-                && (state as AuthState.PhoneVerification).verificationID.isEmpty()
-    }
-    val isCodeFail = remember(state) {
-        state is AuthState.PhoneVerification
-                && (state as AuthState.PhoneVerification).isFail
-                && (state as AuthState.PhoneVerification).verificationID.isNotEmpty()
-    }
-    val isLoading = remember(state) {
-        state is AuthState.PhoneVerification
-                && (state as AuthState.PhoneVerification).isLoading
-    }
+    var isFail by remember { mutableStateOf(false) }
+    var isLoading by remember { mutableStateOf(false) }
 
     var resendCodeTimeOut by remember { mutableStateOf(0) }
 
@@ -226,7 +211,7 @@ private fun JoinPhone(mViewModel: AuthViewModel) = Column(
         onValueChange = { phoneNumber = it },
         placeholder = { Text(stringResource("auth_screen_join_with_phone_phonenumber_field_placeholder")) },
         label = { Text(stringResource("auth_screen_join_with_phone_phonenumber_field_label")) },
-        isError = isPhoneFail,
+        isError = !isVerificationMode && isFail,
         modifier = Modifier.fillMaxWidth()
     )
 
@@ -238,8 +223,8 @@ private fun JoinPhone(mViewModel: AuthViewModel) = Column(
             onValueChange = { smsCode = it },
             placeholder = { Text(stringResource("auth_screen_join_with_phone_smscode_field_placeholder")) },
             label = { Text(stringResource("auth_screen_join_with_phone_smscode_field_label")) },
-            isError = isCodeFail,
-            supportingText = if (isCodeFail) {
+            isError = isVerificationMode && isFail,
+            supportingText = if (isVerificationMode && isFail) {
                 { Text(stringResource("auth_screen_join_with_phone_smscode_verify_fail_error")) }
             } else {
                 null
@@ -285,8 +270,10 @@ private fun JoinPhone(mViewModel: AuthViewModel) = Column(
         var resendCodeTimeOutJob: Job? = null
 
         mViewModel.state
+            .filter { it is AuthState.PhoneVerification }
+            .map { it as AuthState.PhoneVerification }
             .onEach {
-                if (it is AuthState.PhoneVerification && !it.isLoading) {
+                if (!it.isLoading && !it.isFail) {
                     resendCodeTimeOutJob?.cancel()
                     resendCodeTimeOutJob = launch {
                         resendCodeTimeOut = 60
@@ -295,8 +282,14 @@ private fun JoinPhone(mViewModel: AuthViewModel) = Column(
                             delay(1000)
                         }
                     }
+
                     isVerificationMode = true
+                    verificationID = it.verificationID
                 }
+
+                isFail = it.isFail
+                isLoading = it.isLoading
+
             }
             .launchIn(this)
     }
@@ -311,15 +304,13 @@ private fun JoinSocialButtons(mViewModel: AuthViewModel) {
 
     googleSignIn.register { tokenID, _ -> mViewModel.sendEvent(AuthViewEvent.GoogleSignIn(tokenID)) }
 
-    Row {
+    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         VikiButton(
             icon = painterResource("drawable/icon_google.xml"),
             loading = (state as? AuthState.GoogleSignIn)?.isLoading ?: false
         ) { googleSignIn.request() }
 
-        Spacer(modifier = Modifier.width(8.dp))
         VikiButton(icon = painterResource("drawable/icon_fb.xml")) {}
-        Spacer(modifier = Modifier.width(8.dp))
 
         VikiButton(icon = painterResource("drawable/icon_apple.xml")) {}
     }
